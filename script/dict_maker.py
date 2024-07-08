@@ -65,7 +65,7 @@ if __name__ == '__main__':
     ##############################
     
     split_name = "p2670_has_parts_of_the_class"
-    os.chdir(f"../data/{split_name}")
+    os.chdir(f"../data/triplet/{split_name}")
     dir = os.getcwd()
     
     itemset = set()
@@ -80,17 +80,19 @@ if __name__ == '__main__':
                 process_file(input_file)
     
     sorted_items = sorted(list(itemset))
-    with open(os.path.join(dir, "items.txt"), "w") as file:
+    os.chdir(f"../../claim/{split_name}")
+    dir = os.getcwd()
+    with open(os.path.join(dir, "claim.txt"), "w") as file:
         for item in sorted_items:
             file.write(item + "\n")
-    
+            
+    os.chdir(f"../../dict/{split_name}")
+    dir = os.getcwd()
     with open(os.path.join(dir, "big_small.json"), "w") as file:
         json.dump(big_small, file)
     
     with open(os.path.join(dir, "small_big.json"), "w") as file:
         json.dump(small_big, file)
-
-    print(num_edges)
 
     
 

@@ -3,6 +3,7 @@ import re
 import time 
 import requests
 import os
+from tqdm import tqdm
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
@@ -34,19 +35,21 @@ def wikidata_query(query):
 #  Change split folder here  #
 ##############################
 
-split_name = "p2670_has_parts_of_the_class"
-os.chdir(f"../data/{split_name}")
+split_name = "all_claims.txt"
+dir = os.getcwd()
+os.chdir(f"./data/claim/")
 
-with open("items.txt", 'r') as infile, open('claims_to_strings.json', 'a') as out:
+with open(split_name, 'r') as infile, open('claim_labels.json', 'a') as out, open('blacklist.txt', 'a') as blacklist:
     claims = []
     for line in infile:
         claims.append(line.strip())
-    claim_dict = {} 
-    
-    sparql_values = list(map(lambda id: "wd:" + id, claims))[:476]
-    n_split = 476
-    for i in range(0, len(sparql_values), n_split):
+    sparql_values = list(map(lambda id: "wd:" + id, claims))
+
+    n_split = 400
+    for i in tqdm(range(0, len(sparql_values), n_split)):
+        claim_dict = {} 
         sparql_values_split = sparql_values[i:i+n_split] if i+n_split < len(sparql_values) else sparql_values[i:]
+        # print("split_len:",len(sparql_values_split))
         item2label = wikidata_query('''
             SELECT ?item ?itemLabel WHERE {
             VALUES ?item { %s }
@@ -57,6 +60,9 @@ with open("items.txt", 'r') as infile, open('claims_to_strings.json', 'a') as ou
             item = re.sub(r".*[#/\\]", "", result['item']['value'])
             label = result['itemLabel']['value']
             claim_dict[item] = label
+            if item == label:
+                blacklist.write(item + "\n")
         
         json.dump(claim_dict, out)
+        out.write("\n")
         time.sleep(0.5)
