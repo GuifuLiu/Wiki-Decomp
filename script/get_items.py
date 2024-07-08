@@ -35,7 +35,7 @@ if __name__ == '__main__':
             process_file(input_file)
     
     sorted_items = sorted(list(itemset))
-    os.chdir("../../claim/")
+    os.chdir("../../items/")
     dir = os.getcwd()
     with open(os.path.join(dir, f"{split_name}.txt"), "w") as file:
         for item in sorted_items:

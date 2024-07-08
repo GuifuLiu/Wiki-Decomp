@@ -80,9 +80,9 @@ if __name__ == '__main__':
                 process_file(input_file)
     
     sorted_items = sorted(list(itemset))
-    os.chdir(f"../../claim/{split_name}")
+    os.chdir(f"../../items/{split_name}")
     dir = os.getcwd()
-    with open(os.path.join(dir, "claim.txt"), "w") as file:
+    with open(os.path.join(dir, "items.txt"), "w") as file:
         for item in sorted_items:
             file.write(item + "\n")
             

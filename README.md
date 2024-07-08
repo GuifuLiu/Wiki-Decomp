@@ -1,17 +1,16 @@
 # Wiki-Decomp Dataset
 
 
-[toc]
-
 ## Statistics
 
-**Claim** is a concept or object. An **edge** connects two claims with a given property.
+**Item** is a concept or object. An **edge** connects two items with a given property.
 
-| Property                     | PID   | Edge Count | Claim Count |
-| ---------------------------- | ----- | ---------- | ----------- |
-| **Part of**                  | P361  |            |             |
-| **Has part**                 | P527  |            |             |
-| **Has part(s) of the class** | P2670 | 56,790     | 53,478      |
+| Property                     | PID   | Edge Count | Clean Object Count (Raw) |
+| ---------------------------- | ----- | ---------- | ------------------------ |
+| **Part of**                  | P361  |            | 3,403,293 (3,955,033)    |
+| **Has part**                 | P527  |            | 1,690,867 (1,941,348)    |
+| **Has part(s) of the class** | P2670 | 113,610    | 31,826 (53,478)          |
+| Total                        |       |            | 4,014,982                |
 
 ## Format and Example
 
@@ -37,7 +36,7 @@ This edge shows that second item does not have a valid ID (presented as a dead l
 
 Therefore the edge count will differ from raw edge counts from Linked Data Fragment. 
 
-#### Invalid Claim
+#### Invalid Items
 
-We also remove edges where a claim is `no label defined`, such as [Q1000322](https://www.wikidata.org/wiki/Q1000322).  
+We also remove edges where an item is `no label defined`, such as [Q1000322](https://www.wikidata.org/wiki/Q1000322). `SERVICE wikibase:label` returns identifier as label (`Q1000322`), which we use to filter these invalid items. 
 

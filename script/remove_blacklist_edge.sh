@@ -7,7 +7,7 @@ fi
 directory="data/triplet/$1"
 
 # File containing words to remove
-file_A="data/claim/blacklist.txt"
+file_A="data/items/blacklist.txt"
 
 # Create output directory if it doesn't exist
 output_directory="data/triplet_clean/$1"

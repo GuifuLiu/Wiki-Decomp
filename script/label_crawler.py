@@ -35,19 +35,19 @@ def wikidata_query(query):
 #  Change split folder here  #
 ##############################
 
-split_name = "all_claims.txt"
+split_name = "all_items.txt"
 dir = os.getcwd()
-os.chdir(f"./data/claim/")
+os.chdir(f"./data/items/")
 
-with open(split_name, 'r') as infile, open('claim_labels.json', 'a') as out, open('blacklist.txt', 'a') as blacklist:
-    claims = []
+with open(split_name, 'r') as infile, open('items_labels.json', 'a') as out, open('blacklist.txt', 'a') as blacklist:
+    items = []
     for line in infile:
-        claims.append(line.strip())
-    sparql_values = list(map(lambda id: "wd:" + id, claims))
+        items.append(line.strip())
+    sparql_values = list(map(lambda id: "wd:" + id, items))
 
     n_split = 400
     for i in tqdm(range(0, len(sparql_values), n_split)):
-        claim_dict = {} 
+        item_dict = {} 
         sparql_values_split = sparql_values[i:i+n_split] if i+n_split < len(sparql_values) else sparql_values[i:]
         # print("split_len:",len(sparql_values_split))
         item2label = wikidata_query('''
@@ -59,10 +59,10 @@ with open(split_name, 'r') as infile, open('claim_labels.json', 'a') as out, ope
         for result in item2label :
             item = re.sub(r".*[#/\\]", "", result['item']['value'])
             label = result['itemLabel']['value']
-            claim_dict[item] = label
+            item_dict[item] = label
             if item == label:
                 blacklist.write(item + "\n")
         
-        json.dump(claim_dict, out)
+        json.dump(item_dict, out)
         out.write("\n")
         time.sleep(0.5)
