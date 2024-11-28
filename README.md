@@ -10,10 +10,46 @@
 | **Part of**                  | P361  | 4,333,243  | 3,403,293 (3,955,033)    |
 | **Has part**                 | P527  | 2,061,253  | 1,690,867 (1,941,348)    |
 | **Has part(s) of the class** | P2670 | 33500      | 31,826 (53,478)          |
-| Total                        |       |            | 4,014,982                |
+| Total                        |       |            | 4,014,982  (4,612,728)   |
 
 ## Format and Example
 
+The full dataset is in `data`. 
+
+- `data/json` is the format we used in the paper and for the experiments. Here is an example:
+
+  ```
+  [
+    {
+      "qid": "Q1",
+      "label": "Universe",
+      "desc": "totality consisting of space, time, matter and energy",
+      "part": [
+        {
+          "pid": "Q1133705",
+          "plabel": "galaxy filament"
+        },
+        {
+          "pid": "Q11379",
+          "plabel": "energy"
+        },
+        {
+          "pid": "Q133327",
+          "plabel": "spacetime"
+        },
+        ...
+      ]
+    }
+  ]
+  ```
+
+  It stores the concept we would like to decompose and its parts.
+
+- `dict` stores a dictionary each line. The first QID is the key and the remaining ones make up the value. For example `Q425243 Q629 Q895` means that there is a relation `Q425243 -> Q629` and `Q425243 -> Q895`.
+
+- `item` stores the items occurred with a property, in form of their QID.  The corresponding label for QID is in `labels.pkl`. Files that have `valid_item` in their names removed items that are outdated. 
+
+- `triplet` stores the edges in the form of `QID1 PID QID2` which means there is a property with `PID` from an item `QID1` to the other item `QID2`
 
 
 ## Methodology
